@@ -1,4 +1,4 @@
-package guillaume.spyWeb.security.entity;
+package guillaume.spyWeb.security;
 
 import java.util.Date;
 

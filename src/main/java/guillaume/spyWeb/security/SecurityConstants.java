@@ -10,6 +10,8 @@ public class SecurityConstants {
 
     public static final String COOKIE_TOKEN_NAME = "token";
 
+    public static final String COOKIE_TOKEN_PATH = "/";
+
   //  public static final String HEADER_STRING = "Authorization";
 
     //En secondes

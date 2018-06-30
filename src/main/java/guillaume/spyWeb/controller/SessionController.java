@@ -1,28 +1,22 @@
 package guillaume.spyWeb.controller;
 
-import guillaume.spyWeb.security.SecurityConstants;
-import guillaume.spyWeb.security.entity.User;
+import guillaume.spyWeb.entity.User;
 import guillaume.spyWeb.security.service.TokenService;
 import guillaume.spyWeb.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.IOException;
-import java.security.Principal;
+
+import static guillaume.spyWeb.security.SecurityConstants.COOKIE_TOKEN_PATH;
 
 @RestController
 @RequestMapping("/session")
@@ -39,8 +33,8 @@ public class SessionController {
     }
 
     @PostMapping("/register")
-    @PreAuthorize("isAnonymous()")
-    public User login( User user, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public User register( User user, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         try {
             userService.create(user);
             response.setStatus(201);
@@ -50,27 +44,22 @@ public class SessionController {
         }
 
         Cookie cookie = TokenService.generateCookieWithToken(user.getUsername());
+        cookie.setPath(COOKIE_TOKEN_PATH);
         response.addCookie(cookie);
         System.out.println(cookie.getValue());
         return user;
     }
 
     @GetMapping("/info")
-    public Object getUser(HttpServletRequest request) {
+    public Object getUser() {
 
         return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-
-
-
-/*
-
     @GetMapping("/logout")
-    public String logout(HttpServletResponse response) {
-
-        response.addCookie(new Cookie(SecurityConstants.COOKIE_TOKEN_NAME, ""));
-        return "au revoir";
-    }*/
-
+    @ResponseStatus(code = HttpStatus.OK)
+    public String logoutSuccessful(HttpServletResponse response) {
+        response.setStatus(200);
+        return "bye!";
+    }
 }

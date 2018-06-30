@@ -1,16 +1,20 @@
 package guillaume.spyWeb.security.service.impl;
 
-import guillaume.spyWeb.security.entity.User;
+import guillaume.spyWeb.dto.UserDto;
+import guillaume.spyWeb.entity.User;
 import guillaume.spyWeb.security.repository.UserRepository;
 import guillaume.spyWeb.security.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -44,5 +48,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Long id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<UserDto> findAll() {
+
+        return Stream.of(userRepository.findAll())
+                .map(u -> new ModelMapper().map(u, UserDto.class))
+                .collect(Collectors.toList());
+
     }
 }

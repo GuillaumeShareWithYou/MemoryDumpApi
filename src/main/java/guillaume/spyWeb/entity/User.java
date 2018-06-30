@@ -1,7 +1,7 @@
-package guillaume.spyWeb.security.entity;
+package guillaume.spyWeb.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +10,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +35,6 @@ public class User implements UserDetails {
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JsonManagedReference
     private List<Role> roles;
 
     private Boolean isAccountNonExpired, isCredentialsNonExpired, isAccountNonLocked, isEnabled;
@@ -104,6 +102,7 @@ public class User implements UserDetails {
         this.username = username;
     }
 
+    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }

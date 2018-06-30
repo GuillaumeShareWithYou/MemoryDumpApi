@@ -1,5 +1,7 @@
 package guillaume.spyWeb.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import guillaume.spyWeb.entity.User;
 import guillaume.spyWeb.security.service.TokenService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,8 +37,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
 
+        // Send cookie for authorization
         Cookie cookie = TokenService.generateCookieWithToken(authResult.getName());
-
         response.addCookie(cookie);
+
+        // Send user info after login
+        ObjectMapper mapper = new ObjectMapper();
+        response.getWriter().write(mapper.writeValueAsString((User)authResult.getPrincipal()));
     }
 }

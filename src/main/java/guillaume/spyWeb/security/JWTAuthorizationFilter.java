@@ -1,11 +1,8 @@
 package guillaume.spyWeb.security;
 
-import com.sun.jndi.toolkit.url.Uri;
-import guillaume.spyWeb.security.entity.User;
+import guillaume.spyWeb.entity.User;
 import guillaume.spyWeb.security.service.TokenService;
 import guillaume.spyWeb.security.service.UserService;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,10 +14,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
 
-import static guillaume.spyWeb.security.SecurityConstants.*;
+import static guillaume.spyWeb.security.SecurityConstants.COOKIE_TOKEN_NAME;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -37,7 +32,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                                     HttpServletResponse response,
                                     FilterChain chain) throws IOException, ServletException {
 
-        if (!request.getRequestURI().equals("/session/register")) {
+        if (!request.getRequestURI().equals(SecurityConstants.SIGN_UP_URL)) {
             UsernamePasswordAuthenticationToken usernamePasswordAuth = getAuthenticationToken(request, response);
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuth);
         }
@@ -46,7 +41,18 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     }
 
+    /**
+     * Authentication by token in cookie
+     *
+     * @param request
+     * @param response
+     * @return
+     */
     private UsernamePasswordAuthenticationToken getAuthenticationToken(HttpServletRequest request, HttpServletResponse response) {
+        if (request.getCookies() == null) {
+                response.setStatus(401);
+                return null;
+        }
         String token = null;
         for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals(COOKIE_TOKEN_NAME)) {
@@ -60,7 +66,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             String username = TokenService.getUsernameFromToken(token);
             User user = (User) userService.loadUserByUsername(username);
 
-           return new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
+            return new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
 
         } catch (Exception e) {
 

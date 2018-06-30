@@ -1,7 +1,5 @@
 package guillaume.spyWeb.security.service;
 
-import com.sun.deploy.xml.BadTokenException;
-import guillaume.spyWeb.security.entity.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 

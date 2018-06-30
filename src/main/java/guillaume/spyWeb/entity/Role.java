@@ -1,7 +1,4 @@
-package guillaume.spyWeb.security.entity;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.hibernate.annotations.Fetch;
+package guillaume.spyWeb.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,7 +17,6 @@ public class Role {
     private String label;
 
     @ManyToMany(mappedBy = "roles")
-    @JsonBackReference
     private List<User> users;
 
     public Role() {
