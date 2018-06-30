@@ -1,10 +1,13 @@
 package guillaume.spyWeb.tools;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class Converter {
@@ -54,5 +57,11 @@ public class Converter {
         }
         return list;
     }
+
+    public static <E, D> Page<D> mapAllToDto(Page<E> entities, Class<D> dtoClass) {
+        var list = entities.getContent().stream().map(e -> mapToDto(e, dtoClass)).collect(Collectors.toList());
+        return new PageImpl<>(list);
+    }
+
 
 }

@@ -1,32 +1,42 @@
 package guillaume.spyWeb.tools;
 
 import guillaume.spyWeb.dto.UserDto;
-import guillaume.spyWeb.entity.Role;
 import guillaume.spyWeb.entity.User;
 import org.junit.Test;
+import org.springframework.data.domain.PageImpl;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 public class ConverterTest {
 
-    private List<Role> roles = Arrays.asList(new Role("Comedien"), new Role("chanteur"));
-
     @Test
     public void test() {
-        var user = new User();
-        var username = "john smith";
-        user.setUsername(username);
-        Long id = 32L;
-        user.setId(id);
-        user.setRoles(roles);
 
-        var users = List.of(user);
-        var usersDto = Converter.mapAllToDto(users, UserDto.class);
-        // Utilisation simple et quelque soit les types sans créer de nouveaux oonverters
-        var userDto = Converter.mapToDto(user, UserDto.class);
-        assertEquals(username, userDto.getUsername());
-        assertEquals(id, userDto.getId());
+    }
+
+    @Test
+    public void paginationConversion() {
+        var user = new User();
+        var user2 = new User();
+        var username1 = "john smith";
+        var username2 = "jane smith";
+        var id1 = 32L;
+        var id2 = 35L;
+        user.setUsername(username1);
+        user.setId(id1);
+        user2.setUsername(username2);
+        user2.setId(id2);
+
+        var users = List.of(user, user2);
+        var page = new PageImpl<>(users);
+        var pageDto = Converter.mapAllToDto(page, UserDto.class);
+
+        var content = pageDto.getContent();
+        assertEquals(2, content.size());
+        assertEquals(username1, content.get(0).getUsername());
+        assertEquals(username2, content.get(1).getUsername());
+
+
     }
 }
