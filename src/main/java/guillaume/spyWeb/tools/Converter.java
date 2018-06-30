@@ -55,13 +55,4 @@ public class Converter {
         return list;
     }
 
-
-    public static <E, D> List<D> mapAllToDto(ArrayList<E> entities, Class<D> dtoClass) {
-
-        List<D> list = new ArrayList<>();
-        for (E entity : entities) {
-            list.add(modelMapper.map(entities, dtoClass));
-        }
-        return list;
-    }
 }
