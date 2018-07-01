@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
 public class UserService implements UserDetailsService {
 
     private UserRepository userRepository;
+
     private BCryptPasswordEncoder encoder;
 
     @Autowired
@@ -53,5 +55,15 @@ public class UserService implements UserDetailsService {
 
     public User save(User user) {
         return userRepository.save(user);
+    }
+
+
+    @Transactional
+    public User surroundUsernameWithUnderscore(Long id) {
+        var user = this.findById(id);
+        user.setUsername("_" + user.getUsername() + "_");
+
+        user.setPassword(null);
+        return user;
     }
 }
