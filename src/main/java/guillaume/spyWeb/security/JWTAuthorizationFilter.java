@@ -33,7 +33,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                                     FilterChain chain) throws IOException, ServletException {
 
         if (!request.getRequestURI().equals(SecurityConstants.SIGN_UP_URL)) {
-            UsernamePasswordAuthenticationToken usernamePasswordAuth = getAuthenticationToken(request, response);
+            var usernamePasswordAuth = getAuthenticationToken(request, response);
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuth);
         }
 
@@ -50,8 +50,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
      */
     private UsernamePasswordAuthenticationToken getAuthenticationToken(HttpServletRequest request, HttpServletResponse response) {
         if (request.getCookies() == null) {
-                response.setStatus(401);
-                return null;
+            response.setStatus(401);
+            return null;
         }
         String token = null;
         for (Cookie cookie : request.getCookies()) {
@@ -63,8 +63,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
         try {
 
-            String username = TokenService.getUsernameFromToken(token);
-            User user = (User) userService.loadUserByUsername(username);
+            var username = TokenService.getUsernameFromToken(token);
+            var user = (User) userService.loadUserByUsername(username);
 
             return new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
 

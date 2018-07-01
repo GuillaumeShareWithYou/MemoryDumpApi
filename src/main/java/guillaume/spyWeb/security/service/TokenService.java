@@ -7,32 +7,27 @@ import javax.servlet.http.Cookie;
 import java.util.Calendar;
 import java.util.Date;
 
-import static guillaume.spyWeb.security.SecurityConstants.EXPIRATION_TIME;
-import static guillaume.spyWeb.security.SecurityConstants.SECRET;
-import static guillaume.spyWeb.security.SecurityConstants.TOKEN_PREFIX;
+import static guillaume.spyWeb.security.SecurityConstants.*;
 
 public class TokenService {
 
     /**
-     * Generate a cookie secured, containing the token encrypted with HS256
-     * based on the user name.
      *
      * @param username
      * @return
      */
     public static Cookie generateCookieWithToken(String username) {
 
-        Calendar c = Calendar.getInstance();
+        var c = Calendar.getInstance();
         c.setTime(new Date());
         c.add(Calendar.SECOND, EXPIRATION_TIME);
-        Date expiration = c.getTime();
+        var expiration = c.getTime();
 
-        String token = Jwts.builder().setSubject(username)
+        var token = Jwts.builder().setSubject(username)
                 .setExpiration(expiration)
                 .signWith(SignatureAlgorithm.HS256, SECRET)
                 .compact();
-        Cookie cookie = new Cookie("token", token);
-        return cookie;
+        return new Cookie("token", token);
     }
 
     /**

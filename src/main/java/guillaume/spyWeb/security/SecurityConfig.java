@@ -2,7 +2,6 @@ package guillaume.spyWeb.security;
 
 import guillaume.spyWeb.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -30,15 +29,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new CORSFilter();
     }
 
-    @Autowired
-    @Qualifier("userServiceImpl")
-    private UserService userService;
-
-
     @Bean
     BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Autowired
+    private UserService userService;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -50,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().logoutSuccessUrl("/session/logout").deleteCookies(COOKIE_TOKEN_NAME).and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-                .antMatchers("/api/**").authenticated()
+                //   .antMatchers("/api/**").authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManagerBean()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManagerBean(), userService));

@@ -30,13 +30,20 @@ public class ConverterTest {
 
         var users = List.of(user, user2);
         var page = new PageImpl<>(users);
-        var pageDto = Converter.mapAllToDto(page, UserDto.class);
+        var pageDto = Converter.map(page, UserDto.class);
 
         var content = pageDto.getContent();
         assertEquals(2, content.size());
         assertEquals(username1, content.get(0).getUsername());
         assertEquals(username2, content.get(1).getUsername());
+    }
 
+    @Test
+    public void testMap() {
+        var user = new User();
+        user.setUsername("gui");
+        var userDto = Converter.map(user, UserDto.class);
 
+        assertEquals("gui", userDto.getUsername());
     }
 }

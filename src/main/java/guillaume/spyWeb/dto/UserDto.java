@@ -8,24 +8,15 @@ import java.util.List;
 public class UserDto implements Serializable {
     private String username;
     private Long id;
-    private String addressStreet;
-    private List<String> rolesLabel;
+    private List<Role> roles;
 
 
-    public String getAddressStreet() {
-        return addressStreet;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setAddressStreet(String addressStreet) {
-        this.addressStreet = addressStreet;
-    }
-
-    public List<String> getRolesLabel() {
-        return rolesLabel;
-    }
-
-    public void setRolesLabel(List<String> rolesLabel) {
-        this.rolesLabel = rolesLabel;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     public String getUsername() {

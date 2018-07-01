@@ -4,15 +4,11 @@ import guillaume.spyWeb.entity.User;
 import guillaume.spyWeb.security.service.TokenService;
 import guillaume.spyWeb.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -27,13 +23,13 @@ public class SessionController {
     private final UserService userService;
 
     @Autowired
-    public SessionController(AuthenticationManager authenticationManager, @Qualifier("userServiceImpl") UserService userService) {
+    public SessionController(AuthenticationManager authenticationManager, UserService userService) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
     }
 
     @PostMapping("/register")
-    public User register( User user, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public User register(User user, HttpServletResponse response) throws IOException {
 
         try {
             userService.create(user);
@@ -43,7 +39,7 @@ public class SessionController {
             return null;
         }
 
-        Cookie cookie = TokenService.generateCookieWithToken(user.getUsername());
+        var cookie = TokenService.generateCookieWithToken(user.getUsername());
         cookie.setPath(COOKIE_TOKEN_PATH);
         response.addCookie(cookie);
         System.out.println(cookie.getValue());
