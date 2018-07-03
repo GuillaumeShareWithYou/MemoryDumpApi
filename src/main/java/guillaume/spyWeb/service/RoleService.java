@@ -1,7 +1,8 @@
-package guillaume.spyWeb.security.service;
+package guillaume.spyWeb.service;
 
 import guillaume.spyWeb.entity.Role;
-import guillaume.spyWeb.security.repository.RoleRepository;
+import guillaume.spyWeb.exception.RoleNotFoundException;
+import guillaume.spyWeb.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,13 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-
-    public List<Role> getAll() {
+    public List<Role> findAll() {
         return (List<Role>) roleRepository.findAll();
+    }
+
+    public Role findById(Long id) {
+        return roleRepository.findById(id)
+                .orElseThrow(() -> new RoleNotFoundException(String.format("The role with id %s does not exists", id)));
+
     }
 }

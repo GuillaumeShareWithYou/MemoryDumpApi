@@ -2,7 +2,7 @@ package guillaume.spyWeb.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import guillaume.spyWeb.entity.User;
-import guillaume.spyWeb.security.service.TokenService;
+import guillaume.spyWeb.service.TokenService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

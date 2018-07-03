@@ -1,4 +1,4 @@
-package guillaume.spyWeb.security.service;
+package guillaume.spyWeb.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +17,6 @@ public class RoleServiceTest {
 
     @Test
     public void getAll() {
-        assertTrue(roleService.getAll().size() > 0);
+        assertTrue(roleService.findAll().size() > 0);
     }
 }

@@ -1,6 +1,6 @@
 package guillaume.spyWeb.security;
 
-import guillaume.spyWeb.security.service.UserService;
+import guillaume.spyWeb.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().logoutSuccessUrl("/session/logout").deleteCookies(COOKIE_TOKEN_NAME).and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-                //   .antMatchers("/api/**").authenticated()
+                .antMatchers("/api/**").authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManagerBean()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManagerBean(), userService));

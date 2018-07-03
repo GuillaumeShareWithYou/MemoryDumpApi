@@ -11,6 +11,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
+/**
+ * Mon magnifique Converter :D
+ */
 public class Converter {
 
     private static final ModelMapper modelMapper = new ModelMapper();

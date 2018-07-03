@@ -1,4 +1,4 @@
-package guillaume.spyWeb.security.service;
+package guillaume.spyWeb.service;
 
 import guillaume.spyWeb.entity.Role;
 import org.junit.Test;

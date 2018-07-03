@@ -1,4 +1,4 @@
-package guillaume.spyWeb.security.service;
+package guillaume.spyWeb.service;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -20,14 +20,16 @@ public class TokenService {
 
         var c = Calendar.getInstance();
         c.setTime(new Date());
-        c.add(Calendar.SECOND, EXPIRATION_TIME);
+        c.add(Calendar.SECOND, COOKIE_LIFE_DURATION);
         var expiration = c.getTime();
 
         var token = Jwts.builder().setSubject(username)
                 .setExpiration(expiration)
                 .signWith(SignatureAlgorithm.HS256, SECRET)
                 .compact();
-        return new Cookie("token", token);
+        var cookie = new Cookie("token", token);
+        cookie.setMaxAge(COOKIE_LIFE_DURATION);
+        return cookie;
     }
 
     /**

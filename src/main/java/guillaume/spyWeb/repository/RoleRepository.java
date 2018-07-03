@@ -1,4 +1,4 @@
-package guillaume.spyWeb.security.repository;
+package guillaume.spyWeb.repository;
 
 import guillaume.spyWeb.entity.Role;
 import org.springframework.data.repository.CrudRepository;

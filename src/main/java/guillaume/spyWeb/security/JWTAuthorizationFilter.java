@@ -1,8 +1,8 @@
 package guillaume.spyWeb.security;
 
 import guillaume.spyWeb.entity.User;
-import guillaume.spyWeb.security.service.TokenService;
-import guillaume.spyWeb.security.service.UserService;
+import guillaume.spyWeb.service.TokenService;
+import guillaume.spyWeb.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -72,6 +72,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
             response.setStatus(401);
             e.printStackTrace();
+
             return null;
         }
 
