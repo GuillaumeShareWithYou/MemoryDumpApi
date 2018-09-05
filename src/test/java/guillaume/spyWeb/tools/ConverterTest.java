@@ -23,9 +23,9 @@ public class ConverterTest {
         var username2 = "jane smith";
         var id1 = 32L;
         var id2 = 35L;
-        user.setUsername(username1);
+        user.setUserName(username1);
         user.setId(id1);
-        user2.setUsername(username2);
+        user2.setUserName(username2);
         user2.setId(id2);
 
         var users = List.of(user, user2);
@@ -41,7 +41,7 @@ public class ConverterTest {
     @Test
     public void testMap() {
         var user = new User();
-        user.setUsername("gui");
+        user.setUserName("gui");
         var userDto = Converter.map(user, UserDto.class);
 
         assertEquals("gui", userDto.getUsername());

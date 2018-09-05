@@ -5,6 +5,8 @@ public class SecurityConstants {
     public static final String SECRET = "3213518325615";
 
     public static final String SIGN_UP_URL = "/session/register";
+    public static final String LOGIN_URL = "/session/login";
+    public static final String LOGOUT_URL = "/session/logout";
 
     public static final String TOKEN_PREFIX = "Bearer ";
 

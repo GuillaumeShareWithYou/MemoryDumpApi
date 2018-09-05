@@ -1,6 +1,5 @@
 package guillaume.spyWeb.dto;
 
-import guillaume.spyWeb.entity.Connection;
 import guillaume.spyWeb.entity.Role;
 
 import java.io.Serializable;

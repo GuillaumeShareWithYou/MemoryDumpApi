@@ -16,8 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.session.SessionManagementFilter;
 
-import static guillaume.spyWeb.security.SecurityConstants.COOKIE_TOKEN_NAME;
-import static guillaume.spyWeb.security.SecurityConstants.SIGN_UP_URL;
+import static guillaume.spyWeb.security.SecurityConstants.*;
 
 @Configuration
 @EnableWebSecurity
@@ -45,9 +44,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .csrf().disable()
                 .formLogin().disable()
-                .logout().logoutSuccessUrl("/session/logout").deleteCookies(COOKIE_TOKEN_NAME).and()
+                .logout().logoutSuccessUrl(LOGOUT_URL).deleteCookies(COOKIE_TOKEN_NAME).and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+                .antMatchers(HttpMethod.POST, SIGN_UP_URL).anonymous()
                 .antMatchers("/api/**").authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManagerBean()))

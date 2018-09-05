@@ -10,8 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -24,7 +23,7 @@ public class User implements UserDetails {
     @Column(unique = true)
     @NotNull
     @Size(min = 3, max = 15)
-    private String username;
+    private String userName;
 
     @NotNull
     private String password;
@@ -35,11 +34,12 @@ public class User implements UserDetails {
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Role> roles;
+    private Set<Role> roles;
 
     private Boolean isAccountNonExpired, isCredentialsNonExpired, isAccountNonLocked, isEnabled;
 
     public User() {
+        this.roles = new HashSet<>();
         isAccountNonExpired = true;
         isAccountNonLocked = true;
         isCredentialsNonExpired = true;
@@ -50,7 +50,7 @@ public class User implements UserDetails {
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        if(roles == null)
+        if(roles == null || roles.isEmpty())
             return null;
 
       return roles.stream()
@@ -67,7 +67,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return userName;
     }
 
     @Override
@@ -99,8 +99,8 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @JsonProperty
@@ -116,11 +116,11 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
@@ -139,5 +139,11 @@ public class User implements UserDetails {
 
     public void setEnabled(Boolean enabled) {
         isEnabled = enabled;
+    }
+
+    public void addRole(Role role) {
+        if(roles == null)
+            this.roles = new HashSet<>();
+        this.roles.add(role);
     }
 }
