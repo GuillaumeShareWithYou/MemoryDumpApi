@@ -56,6 +56,7 @@ public class SessionController {
     @ResponseStatus(code = HttpStatus.OK)
     public String logoutSuccessful(HttpServletResponse response) {
         response.setStatus(200);
-        return "bye!";
+        System.out.println(response);
+        return "You have been logged out successfully";
     }
 }

@@ -12,7 +12,6 @@ public class UserDto implements Serializable {
     private String email;
     private List<Role> roles;
 
-    private Connection connection;
 
     public List<Role> getRoles() {
         return roles;
@@ -44,14 +43,6 @@ public class UserDto implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
     }
 }
 

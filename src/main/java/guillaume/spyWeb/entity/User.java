@@ -34,9 +34,6 @@ public class User implements UserDetails {
     @NotNull
     private String email;
 
-    @OneToOne
-    private Connection connection;
-
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
 
@@ -93,13 +90,6 @@ public class User implements UserDetails {
         return isEnabled;
     }
 
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
 
     public Long getId() {
         return id;

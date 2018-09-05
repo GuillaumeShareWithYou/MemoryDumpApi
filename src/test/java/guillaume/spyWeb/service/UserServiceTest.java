@@ -19,9 +19,8 @@ public class UserServiceTest {
     private UserService userService;
 
     @Test
-    public void getById() {
+    public void findAdminById() {
         var user = userService.findById(1L);
-        var list = user.getRoles().stream().map(Role::getLabel).collect(Collectors.toList());
-        assertTrue(list.contains("ROLE_ADMIN"));
+        assertTrue(user.getRoles().stream().map(Role::getLabel).anyMatch(label -> label.equals("ROLE_ADMIN")));
     }
 }
