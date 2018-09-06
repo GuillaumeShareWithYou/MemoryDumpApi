@@ -5,7 +5,7 @@ import guillaume.spyWeb.entity.Role;
 import java.io.Serializable;
 import java.util.List;
 
-public class UserDto implements Serializable {
+public class UserSessionDto implements Serializable {
     private String username;
     private Long id;
     private String email;

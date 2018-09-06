@@ -1,7 +1,7 @@
 package guillaume.spyWeb.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import guillaume.spyWeb.dto.UserDto;
+import guillaume.spyWeb.dto.UserSessionDto;
 import guillaume.spyWeb.entity.User;
 import guillaume.spyWeb.service.TokenService;
 import guillaume.spyWeb.tools.Converter;
@@ -45,7 +45,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         // Send user info after login
         var mapper = new ObjectMapper();
         var user = (User) authResult.getPrincipal();
-        var userDTO = Converter.map(user, UserDto.class);
+        var userDTO = Converter.map(user, UserSessionDto.class);
         response.getWriter().write(mapper.writeValueAsString(userDTO));
     }
 }

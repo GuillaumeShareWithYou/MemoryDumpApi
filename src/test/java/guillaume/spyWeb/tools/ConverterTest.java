@@ -1,6 +1,6 @@
 package guillaume.spyWeb.tools;
 
-import guillaume.spyWeb.dto.UserDto;
+import guillaume.spyWeb.dto.UserSessionDto;
 import guillaume.spyWeb.entity.User;
 import org.junit.Test;
 import org.springframework.data.domain.PageImpl;
@@ -30,7 +30,7 @@ public class ConverterTest {
 
         var users = List.of(user, user2);
         var page = new PageImpl<>(users);
-        var pageDto = Converter.map(page, UserDto.class);
+        var pageDto = Converter.map(page, UserSessionDto.class);
 
         var content = pageDto.getContent();
         assertEquals(2, content.size());
@@ -42,7 +42,7 @@ public class ConverterTest {
     public void testMap() {
         var user = new User();
         user.setUserName("gui");
-        var userDto = Converter.map(user, UserDto.class);
+        var userDto = Converter.map(user, UserSessionDto.class);
 
         assertEquals("gui", userDto.getUsername());
     }

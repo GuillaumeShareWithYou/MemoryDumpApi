@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 /**
@@ -20,10 +19,6 @@ public class Converter {
 
     public static <A, B> B map(A a, Class<B> clazz) {
         return modelMapper.map(a, clazz);
-    }
-
-    public static <A, B> List<B> map(List<A> list, Class<B> clazz) {
-        return list.stream().map(e -> map(e, clazz)).collect(Collectors.toList());
     }
 
     public static <A, B> Page<B> map(Page<A> entities, Class<B> clazz) {

@@ -1,0 +1,1 @@
+insert into topic(label) values('Java'),('C++'),('SQL'),('Angular'),('PHP');

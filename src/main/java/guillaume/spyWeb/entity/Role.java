@@ -26,7 +26,7 @@ public class Role {
     public Role() {
     }
 
-    public Role(@Pattern(regexp = "^ROLE_.*$") String label) {
+    public Role(String label) {
         this.label = label;
     }
 

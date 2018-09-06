@@ -1,6 +1,6 @@
 package guillaume.spyWeb.controller;
 
-import guillaume.spyWeb.dto.UserDto;
+import guillaume.spyWeb.dto.UserSessionDto;
 import guillaume.spyWeb.entity.Role;
 import guillaume.spyWeb.entity.User;
 import guillaume.spyWeb.service.RoleService;
@@ -45,7 +45,7 @@ public class AdminController {
     }
 
     @GetMapping("/user")
-    public List<UserDto> findAllUsers() {
+    public List<UserSessionDto> findAllUsers() {
         return userService.findAll();
     }
 

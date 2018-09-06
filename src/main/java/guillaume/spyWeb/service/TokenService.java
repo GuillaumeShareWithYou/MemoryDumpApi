@@ -28,6 +28,7 @@ public class TokenService {
                 .signWith(SignatureAlgorithm.HS256, SECRET)
                 .compact();
         var cookie = new Cookie("token", token);
+        cookie.setPath("/");
         cookie.setMaxAge(COOKIE_LIFE_DURATION);
         return cookie;
     }

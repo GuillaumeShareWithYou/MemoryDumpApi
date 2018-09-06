@@ -21,6 +21,6 @@ public class UserServiceTest {
     @Test
     public void findAdminById() {
         var user = userService.findById(1L);
-        assertTrue(user.getRoles().stream().map(Role::getLabel).anyMatch(label -> label.equals("ROLE_ADMIN")));
+        assertTrue(user.getRoles().stream().map(Role::getLabel).anyMatch(label -> label.equals("ADMIN")));
     }
 }

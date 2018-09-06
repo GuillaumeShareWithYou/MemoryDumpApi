@@ -1,7 +1,7 @@
 package guillaume.spyWeb.controller;
 
 import guillaume.spyWeb.dto.CredentialsDto;
-import guillaume.spyWeb.dto.UserDto;
+import guillaume.spyWeb.dto.UserSessionDto;
 import guillaume.spyWeb.entity.User;
 import guillaume.spyWeb.service.TokenService;
 import guillaume.spyWeb.service.UserService;
@@ -15,33 +15,30 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.stream.Stream;
 
 import static guillaume.spyWeb.security.SecurityConstants.COOKIE_TOKEN_NAME;
 import static guillaume.spyWeb.security.SecurityConstants.COOKIE_TOKEN_PATH;
 
 @RestController
 @RequestMapping("/session")
-public class SessionController {
+public class SessionController extends AbstractController{
 
-    private final AuthenticationManager authenticationManager;
 
     private final UserService userService;
 
     @Autowired
-    public SessionController(AuthenticationManager authenticationManager, UserService userService) {
-        this.authenticationManager = authenticationManager;
+    public SessionController(UserService userService) {
         this.userService = userService;
     }
 
     @PostMapping("/register")
-    public UserDto register(CredentialsDto credentials, HttpServletResponse response) throws IOException {
+    public UserSessionDto register(CredentialsDto credentials, HttpServletResponse response) throws IOException {
 
         System.out.println(String.format("register with username : %s and password : %s and email %s",
                 credentials.getUserName(),
                 credentials.getPassword(),
                 credentials.getEmail()));
-        UserDto userDto;
+        UserSessionDto userDto;
         try {
             userDto = userService.create(credentials);
             response.setStatus(201);
@@ -59,8 +56,8 @@ public class SessionController {
     }
 
     @GetMapping("/info")
-    public Object getUser() {
-        return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public User getUser() {
+        return getUserSession();
     }
 
     @PostMapping("/logout")

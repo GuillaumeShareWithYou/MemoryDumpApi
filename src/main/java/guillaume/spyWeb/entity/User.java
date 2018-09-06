@@ -1,5 +1,6 @@
 package guillaume.spyWeb.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
@@ -38,8 +39,13 @@ public class User implements UserDetails {
 
     private Boolean isAccountNonExpired, isCredentialsNonExpired, isAccountNonLocked, isEnabled;
 
+    @OneToMany(mappedBy = "user")
+    @JsonBackReference
+    private List<Course> courses;
+
     public User() {
         this.roles = new HashSet<>();
+        this.courses = new ArrayList<>();
         isAccountNonExpired = true;
         isAccountNonLocked = true;
         isCredentialsNonExpired = true;
@@ -66,8 +72,9 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public String getUsername() {
-        return userName;
+        return this.userName;
     }
 
     @Override
@@ -145,5 +152,33 @@ public class User implements UserDetails {
         if(roles == null)
             this.roles = new HashSet<>();
         this.roles.add(role);
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public Boolean getAccountNonExpired() {
+        return isAccountNonExpired;
+    }
+
+    public Boolean getCredentialsNonExpired() {
+        return isCredentialsNonExpired;
+    }
+
+    public Boolean getAccountNonLocked() {
+        return isAccountNonLocked;
+    }
+
+    public Boolean getEnabled() {
+        return isEnabled;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 }

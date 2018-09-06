@@ -23,17 +23,21 @@ import static guillaume.spyWeb.security.SecurityConstants.*;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    public SecurityConfig(UserService userService, BCryptPasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @Bean
     CORSFilter corsFilter() {
         return new CORSFilter();
     }
 
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
 
 
@@ -43,17 +47,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(corsFilter(), SessionManagementFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .csrf().disable()
-                .formLogin().disable()
                 .logout().logoutSuccessUrl(LOGOUT_URL).deleteCookies(COOKIE_TOKEN_NAME).and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).anonymous()
                 .antMatchers("/api/**").authenticated()
                 .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManagerBean()))
+                .addFilter(authenticationFilter())
                 .addFilter(new JWTAuthorizationFilter(authenticationManagerBean(), userService));
-
     }
 
+
+    public JWTAuthenticationFilter authenticationFilter() throws Exception {
+        var filter = new JWTAuthenticationFilter(authenticationManagerBean());
+        filter.setFilterProcessesUrl(LOGIN_URL);
+        return filter;
+    }
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder);

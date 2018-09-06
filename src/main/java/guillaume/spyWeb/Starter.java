@@ -4,6 +4,7 @@ import guillaume.spyWeb.entity.Role;
 import guillaume.spyWeb.entity.User;
 import guillaume.spyWeb.repository.RoleRepository;
 import guillaume.spyWeb.repository.UserRepository;
+import guillaume.spyWeb.security.RoleName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,14 +24,15 @@ public class Starter implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
-
-/*        Role admin = roleRepository.findByLabel("ROLE_ADMIN");
+    public void run(String... args) {
+        roleRepository.save(new Role(RoleName.USER.getName()));
+        roleRepository.save(new Role(RoleName.ADMIN.getName()));
+        var role = roleRepository.save(new Role(RoleName.TEACHER.getName()));
         User user = new User();
-        user.addRole(admin);
+        user.addRole(role);
         user.setEmail("guillaume@admin.com");
         user.setUserName("guillaume");
         user.setPassword(encoder.encode("Secret"));
-        userRepository.save(user);*/
+        userRepository.save(user);
     }
 }

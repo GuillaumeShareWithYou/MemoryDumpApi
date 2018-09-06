@@ -1,12 +1,13 @@
 package guillaume.spyWeb.service;
 
 import guillaume.spyWeb.dto.CredentialsDto;
-import guillaume.spyWeb.dto.UserDto;
+import guillaume.spyWeb.dto.UserSessionDto;
 import guillaume.spyWeb.entity.Role;
 import guillaume.spyWeb.entity.User;
 import guillaume.spyWeb.exception.UserNotFoundException;
 import guillaume.spyWeb.repository.RoleRepository;
 import guillaume.spyWeb.repository.UserRepository;
+import guillaume.spyWeb.security.RoleName;
 import guillaume.spyWeb.tools.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -59,24 +60,23 @@ public class UserService implements UserDetailsService {
 
     /**
      * Create user from registration with the user name, the email and the password
-     * and give it the role 'ROLE_USER'
+     * and give it the role 'USER'
      * @param credentialsDto user credentials
      * @return the user dto
      */
     @Transactional
-    public UserDto create(CredentialsDto credentialsDto) {
+    public UserSessionDto create(CredentialsDto credentialsDto) {
         var user = new User();
         user.setPassword(encoder.encode(credentialsDto.getPassword()));
         user.setUserName(credentialsDto.getUserName());
         user.setEmail(credentialsDto.getEmail());
-        Role role = roleRepository.findByLabel("ROLE_USER");
+        Role role = roleRepository.findByLabel(RoleName.USER.getName());
         user.addRole(role);
-        return Converter.map(userRepository.save(user), UserDto.class);
+        return Converter.map(userRepository.save(user), UserSessionDto.class);
     }
 
-
-    public List<UserDto> findAll() {
-        return Converter.map(userRepository.findAll(), UserDto.class);
+    public List<UserSessionDto> findAll() {
+        return Converter.map(userRepository.findAll(), UserSessionDto.class);
     }
 
     public User save(User user) {
