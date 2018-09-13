@@ -27,4 +27,9 @@ public class RoleService {
                 .orElseThrow(() -> new RoleNotFoundException(String.format("The role with id %s does not exists", id)));
 
     }
+
+    public Role save(Role role) {
+        System.out.println("...");
+        return roleRepository.save(role);
+    }
 }

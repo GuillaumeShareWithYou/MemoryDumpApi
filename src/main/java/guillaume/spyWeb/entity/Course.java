@@ -1,7 +1,8 @@
 package guillaume.spyWeb.entity;
 
+import guillaume.spyWeb.dto.CommentDto;
+import guillaume.spyWeb.tools.Converter;
 import org.codehaus.jackson.annotate.JsonManagedReference;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,8 +26,7 @@ public class Course {
     @JsonManagedReference
     private User user;
 
-    @OneToMany(mappedBy = "course")
-    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Comment> comments = new ArrayList<>();
 
     public Long getId() {
@@ -75,5 +75,9 @@ public class Course {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
     }
 }

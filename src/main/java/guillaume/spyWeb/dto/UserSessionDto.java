@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class UserSessionDto implements Serializable {
-    private String username;
+    private String userName;
     private Long id;
     private String email;
     private List<Role> roles;
@@ -20,12 +20,12 @@ public class UserSessionDto implements Serializable {
         this.roles = roles;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Long getId() {

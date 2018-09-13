@@ -7,8 +7,6 @@ import guillaume.spyWeb.service.TokenService;
 import guillaume.spyWeb.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -48,7 +46,7 @@ public class SessionController extends AbstractController{
             return null;
         }
 
-        var cookie = TokenService.generateCookieWithToken(userDto.getUsername());
+        var cookie = TokenService.generateCookieWithToken(userDto.getUserName());
         cookie.setPath(COOKIE_TOKEN_PATH); // otherwise the path is not '/', it's '/session' and I need a unique cookie
         response.addCookie(cookie);
         System.out.println(String.format("the cookie generated is : %s", cookie.getValue()));

@@ -1,9 +1,8 @@
 package guillaume.spyWeb.entity;
 
-import org.codehaus.jackson.annotate.JsonBackReference;
-import org.codehaus.jackson.annotate.JsonManagedReference;
-
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Comment {
@@ -13,9 +12,8 @@ public class Comment {
 
     private String content;
 
-    @ManyToOne
-    @JsonBackReference
-    private Course course;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Comment> comments = new ArrayList<>();
 
     @ManyToOne
     private User user;
@@ -36,13 +34,15 @@ public class Comment {
         this.content = content;
     }
 
-    public Course getCourse() {
-        return course;
+
+    public List<Comment> getComments() {
+        return comments;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
+
 
     public User getUser() {
         return user;
@@ -51,4 +51,5 @@ public class Comment {
     public void setUser(User user) {
         this.user = user;
     }
+
 }

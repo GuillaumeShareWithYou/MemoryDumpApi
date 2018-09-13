@@ -34,8 +34,8 @@ public class ConverterTest {
 
         var content = pageDto.getContent();
         assertEquals(2, content.size());
-        assertEquals(username1, content.get(0).getUsername());
-        assertEquals(username2, content.get(1).getUsername());
+        assertEquals(username1, content.get(0).getUserName());
+        assertEquals(username2, content.get(1).getUserName());
     }
 
     @Test
@@ -44,6 +44,6 @@ public class ConverterTest {
         user.setUserName("gui");
         var userDto = Converter.map(user, UserSessionDto.class);
 
-        assertEquals("gui", userDto.getUsername());
+        assertEquals("gui", userDto.getUserName());
     }
 }

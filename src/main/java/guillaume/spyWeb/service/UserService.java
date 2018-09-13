@@ -1,6 +1,7 @@
 package guillaume.spyWeb.service;
 
 import guillaume.spyWeb.dto.CredentialsDto;
+import guillaume.spyWeb.dto.UserDto;
 import guillaume.spyWeb.dto.UserSessionDto;
 import guillaume.spyWeb.entity.Role;
 import guillaume.spyWeb.entity.User;
@@ -54,8 +55,10 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public User findById(Long userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(String.format("the user with id %s cannot be found.", userId)));
+    public UserDto findById(Long userId) {
+        return Converter.map(userRepository.findById(userId)
+                        .orElseThrow(() -> new UserNotFoundException(String.format("the user with id %s cannot be found.", userId))),
+                UserDto.class);
     }
 
     /**
@@ -75,12 +78,16 @@ public class UserService implements UserDetailsService {
         return Converter.map(userRepository.save(user), UserSessionDto.class);
     }
 
-    public List<UserSessionDto> findAll() {
-        return Converter.map(userRepository.findAll(), UserSessionDto.class);
+    public List<UserDto> findAll() {
+        return Converter.map(userRepository.findAll(), UserDto.class);
     }
 
-    public User save(User user) {
-        return userRepository.save(user);
+    public UserDto save(UserDto userDto) {
+        return Converter.map(
+                userRepository.save(Converter.map(userDto, User.class)),
+                UserDto.class
+        );
     }
+
 
 }

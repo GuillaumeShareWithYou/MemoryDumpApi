@@ -67,4 +67,5 @@ public class CourseDto {
     public void setUser(UserSessionDto user) {
         this.user = user;
     }
+
 }
