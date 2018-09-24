@@ -1,9 +1,6 @@
 package guillaume.spyWeb.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class CourseDto {
+public class CourseDto extends AuditDto{
     private Long id;
 
     private String title;
@@ -13,12 +10,6 @@ public class CourseDto {
     private String content;
 
     private UserSessionDto user;
-
-    private List<CommentDto> comments;
-
-    public CourseDto() {
-        this.comments = new ArrayList<>();
-    }
 
     public Long getId() {
         return id;
@@ -50,14 +41,6 @@ public class CourseDto {
 
     public void setTopic(TopicDto topic) {
         this.topic = topic;
-    }
-
-    public List<CommentDto> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<CommentDto> comments) {
-        this.comments = comments;
     }
 
     public UserSessionDto getUser() {

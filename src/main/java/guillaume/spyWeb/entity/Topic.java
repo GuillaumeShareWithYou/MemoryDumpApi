@@ -18,6 +18,14 @@ public class Topic {
     @JsonIgnore
     private List<Course> courses;
 
+    public Topic() {
+
+    }
+
+    public Topic(String label) {
+        this.label = label;
+    }
+
     public Long getId() {
         return id;
     }

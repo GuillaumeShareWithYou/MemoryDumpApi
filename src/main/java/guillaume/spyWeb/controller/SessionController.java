@@ -5,6 +5,7 @@ import guillaume.spyWeb.dto.UserSessionDto;
 import guillaume.spyWeb.entity.User;
 import guillaume.spyWeb.service.TokenService;
 import guillaume.spyWeb.service.UserService;
+import guillaume.spyWeb.tools.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -54,8 +55,8 @@ public class SessionController extends AbstractController{
     }
 
     @GetMapping("/info")
-    public User getUser() {
-        return getUserSession();
+    public UserSessionDto getUser() {
+        return Converter.map(getUserSession(), UserSessionDto.class);
     }
 
     @PostMapping("/logout")

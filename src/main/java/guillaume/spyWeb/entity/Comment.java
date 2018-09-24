@@ -1,23 +1,34 @@
 package guillaume.spyWeb.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-public class Comment {
+public class Comment extends AuditModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String content;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Comment> comments = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    private Comment parentComment;
+
+    @ManyToOne
+    private Course course;
 
     @ManyToOne
     private User user;
 
+
+    public Comment() {
+
+    }
+
+    public Comment(String content) {
+        this.content = content;
+
+    }
     public Long getId() {
         return id;
     }
@@ -35,14 +46,6 @@ public class Comment {
     }
 
 
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
 
     public User getUser() {
         return user;
@@ -52,4 +55,19 @@ public class Comment {
         this.user = user;
     }
 
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public Comment getParentComment() {
+        return parentComment;
+    }
+
+    public void setParentComment(Comment parentComment) {
+        this.parentComment = parentComment;
+    }
 }

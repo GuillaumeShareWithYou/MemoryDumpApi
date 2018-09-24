@@ -1,15 +1,11 @@
 package guillaume.spyWeb.dto;
 
-import java.util.List;
-
-public class CommentDto {
+public class CommentDto extends AuditDto{
     private Long id;
 
     private UserSessionDto user;
 
     private String content;
-
-    private List<CommentDto> comments;
 
     public Long getId() {
         return id;
@@ -17,14 +13,6 @@ public class CommentDto {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public List<CommentDto> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<CommentDto> comments) {
-        this.comments = comments;
     }
 
     public UserSessionDto getUser() {

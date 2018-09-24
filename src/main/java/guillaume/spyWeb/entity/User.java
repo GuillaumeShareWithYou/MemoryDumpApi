@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
-public class User implements UserDetails {
+public class User extends AuditModel implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,7 @@
 package guillaume.spyWeb.dto;
 
+import java.util.Date;
+
 public class UserDto extends UserSessionDto {
 
     private boolean isAccountNonExpired;
@@ -7,6 +9,24 @@ public class UserDto extends UserSessionDto {
     private boolean isCredentialsNonExpired;
     private boolean isEnabled;
     private String password;
+    private Date createdAt;
+    private Date updatedAt;
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
     public String getPassword() {
         return password;
