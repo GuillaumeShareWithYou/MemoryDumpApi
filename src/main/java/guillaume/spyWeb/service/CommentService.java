@@ -7,7 +7,6 @@ import guillaume.spyWeb.repository.CommentRepository;
 import guillaume.spyWeb.repository.CourseRepository;
 import guillaume.spyWeb.tools.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -41,7 +40,7 @@ public class CommentService {
     public void addCommentToComment(Long id, CommentDto commentDto) {
         var parent = findEntityById(id);
         var comment = Converter.map(commentDto, Comment.class);
-        comment.setParentComment(parent);
+        comment.setComment(parent);
         commentRepository.save(comment);
     }
 
@@ -56,7 +55,7 @@ public class CommentService {
     }
 
     public Page<CommentDto> getByComment(Long id, Pageable pageable) {
-        var comments = commentRepository.findByParentCommentId(id, pageable);
+        var comments = commentRepository.findByCommentId(id, pageable);
         return Converter.map(comments, CommentDto.class);
 
     }

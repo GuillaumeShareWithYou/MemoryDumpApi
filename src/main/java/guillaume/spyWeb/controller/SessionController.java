@@ -48,7 +48,7 @@ public class SessionController extends AbstractController{
         }
 
         var cookie = TokenService.generateCookieWithToken(userDto.getUserName());
-        cookie.setPath(COOKIE_TOKEN_PATH); // otherwise the path is not '/', it's '/session' and I need a unique cookie
+        cookie.setPath(COOKIE_TOKEN_PATH);
         response.addCookie(cookie);
         System.out.println(String.format("the cookie generated is : %s", cookie.getValue()));
         return userDto;

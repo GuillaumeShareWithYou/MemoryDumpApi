@@ -1,6 +1,7 @@
 package guillaume.spyWeb.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Comment extends AuditModel{
@@ -12,7 +13,10 @@ public class Comment extends AuditModel{
 
     @ManyToOne
     @JoinColumn(name = "comment_id")
-    private Comment parentComment;
+    private Comment comment;
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE)
+    private List<Comment> comments;
 
     @ManyToOne
     private Course course;
@@ -46,6 +50,13 @@ public class Comment extends AuditModel{
     }
 
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 
     public User getUser() {
         return user;
@@ -63,11 +74,11 @@ public class Comment extends AuditModel{
         this.course = course;
     }
 
-    public Comment getParentComment() {
-        return parentComment;
+    public Comment getComment() {
+        return comment;
     }
 
-    public void setParentComment(Comment parentComment) {
-        this.parentComment = parentComment;
+    public void setComment(Comment comment) {
+        this.comment = comment;
     }
 }

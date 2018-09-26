@@ -1,6 +1,8 @@
 package guillaume.spyWeb.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Course extends AuditModel{
@@ -18,6 +20,18 @@ public class Course extends AuditModel{
 
     @ManyToOne
     private User user;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
+    private List<Comment> comments = new ArrayList<>();
+
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 
     public Long getId() {
         return id;

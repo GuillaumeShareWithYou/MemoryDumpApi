@@ -4,7 +4,6 @@ import guillaume.spyWeb.entity.*;
 import guillaume.spyWeb.repository.*;
 import guillaume.spyWeb.security.RoleName;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -68,7 +67,7 @@ public class Starter implements CommandLineRunner {
 
         Comment forComment2 = new Comment();
         forComment2.setContent("what a nice comment");
-        forComment2.setParentComment(comment2);
+        forComment2.setComment(comment2);
 
         courseRepository.save(course);
         comment1.setCourse(course);
@@ -97,6 +96,7 @@ public class Starter implements CommandLineRunner {
                     courseRepository.delete(c.get());
                 }
             }, 10_000);
+
         }
     }
 }
