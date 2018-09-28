@@ -1,6 +1,8 @@
 package guillaume.spyWeb.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,15 +12,19 @@ public class Course extends AuditModel{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String title;
 
     @ManyToOne
+    @NotNull
     private Topic topic;
 
-    @Column(columnDefinition = "text")
+    @Lob
+    @NotBlank
     private String content;
 
     @ManyToOne
+    @NotNull
     private User user;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)

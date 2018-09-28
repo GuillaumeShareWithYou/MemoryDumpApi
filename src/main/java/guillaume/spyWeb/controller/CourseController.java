@@ -1,18 +1,16 @@
 package guillaume.spyWeb.controller;
 
-import guillaume.spyWeb.dto.CommentDto;
 import guillaume.spyWeb.dto.CourseDto;
-import guillaume.spyWeb.entity.Course;
+import guillaume.spyWeb.exception.ForbiddenException;
 import guillaume.spyWeb.service.CourseService;
 import guillaume.spyWeb.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.MediaType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -22,25 +20,21 @@ public class CourseController extends AbstractController {
 
     private final CourseService courseService;
 
-    private final UserService userService;
-
     @Autowired
-    public CourseController(CourseService courseService, UserService userService) {
+    public CourseController(CourseService courseService) {
         this.courseService = courseService;
-        this.userService = userService;
     }
 
     @PostMapping(value = "courses", consumes = APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
-    public CourseDto createCourse(@RequestBody Course course, HttpServletResponse response) {
-        response.setStatus(201);
-        course.setUser(getUserSession());
-        return courseService.create(course);
+    @ResponseStatus(HttpStatus.CREATED)
+    public CourseDto createCourse(@RequestBody CourseDto course) {
+        return courseService.create(course, getUserSession());
     }
 
     @GetMapping("courses")
-    public List<CourseDto> getCoursesForUserSession() {
-        return courseService.getCoursesByUser(getUserSession());
+    public Page<CourseDto> getCoursesForUserSession(@PageableDefault Pageable pageable) {
+        return courseService.getCoursesByUser(getUserSession(), pageable);
     }
 
     @GetMapping("courses/{id}")
@@ -49,18 +43,35 @@ public class CourseController extends AbstractController {
     }
 
 
+    /**
+     * Delete a course
+     * Only if owner or admin
+     * @param id course id
+     */
     @DeleteMapping("courses/{id}")
-    public void deleteCourse(@PathVariable Long id, HttpServletResponse response) {
-        try {
-            courseService.delete(id);
-            response.setStatus(204);
-        } catch (EmptyResultDataAccessException e) {
-            response.setStatus(404);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCourse(@PathVariable Long id) {
+        var user = getUserSession();
+        var course = courseService.findEntityById(id);
+        if (!user.getId().equals(course.getUser().getId())) {
+            throw new ForbiddenException(String.format("The user with id %d is not the owner of the course %d and is not admin so he can't delete it.",
+                    user.getId(), course.getId()));
         }
+        courseService.delete(id);
     }
 
+    /**
+     * Update a course only if the user is the teacher
+     * @param course course content
+     * @return
+     */
     @PutMapping(value = "courses", consumes = APPLICATION_JSON_VALUE)
-    public CourseDto updateCourse(@RequestBody Course course) {
-        return courseService.create(course);
+    public CourseDto updateCourse(@RequestBody CourseDto course) {
+        var userId = getUserSession().getId();
+        if(! userId.equals(course.getUser().getId())) {
+            throw new ForbiddenException(String.format("The user with id %d can't update the course with id %d because he is not the owner.",
+                    userId, course.getId()));
+        }
+        return courseService.update(course);
     }
 }

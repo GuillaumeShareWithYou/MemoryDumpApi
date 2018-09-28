@@ -1,6 +1,8 @@
 package guillaume.spyWeb.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -9,6 +11,7 @@ public class Comment extends AuditModel{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String content;
 
     @ManyToOne
@@ -22,8 +25,8 @@ public class Comment extends AuditModel{
     private Course course;
 
     @ManyToOne
+    @NotNull
     private User user;
-
 
     public Comment() {
 

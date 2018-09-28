@@ -68,16 +68,15 @@ public class Starter implements CommandLineRunner {
         Comment forComment2 = new Comment();
         forComment2.setContent("what a nice comment");
         forComment2.setComment(comment2);
-
+        forComment2.setUser(user);
         courseRepository.save(course);
         comment1.setCourse(course);
         comment2.setCourse(course);
 
         IntStream.range(1, 11).mapToObj(e -> new Comment("comment " + e))
-                .map(comment -> {
+                .peek(comment -> {
                     comment.setCourse(course);
                     comment.setUser(user);
-                    return comment;
                 })
                 .forEach(commentRepository::save);
         commentRepository.save(comment1);

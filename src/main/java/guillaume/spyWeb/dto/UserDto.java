@@ -8,7 +8,6 @@ public class UserDto extends UserSessionDto {
     private boolean isAccountNonLocked;
     private boolean isCredentialsNonExpired;
     private boolean isEnabled;
-    private String password;
     private Date createdAt;
     private Date updatedAt;
 
@@ -26,14 +25,6 @@ public class UserDto extends UserSessionDto {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public boolean isAccountNonExpired() {

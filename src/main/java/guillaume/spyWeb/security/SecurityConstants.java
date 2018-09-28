@@ -16,5 +16,5 @@ public class SecurityConstants {
 
     public static final String COOKIE_TOKEN_PATH = "/";
     //En secondes
-    public static final int COOKIE_LIFE_DURATION = 86400;
+    public static final int COOKIE_LIFE_DURATION = 86400; // 24h
 }

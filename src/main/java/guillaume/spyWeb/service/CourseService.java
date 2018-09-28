@@ -1,14 +1,14 @@
 package guillaume.spyWeb.service;
 
-import guillaume.spyWeb.dto.CommentDto;
 import guillaume.spyWeb.dto.CourseDto;
-import guillaume.spyWeb.entity.Comment;
 import guillaume.spyWeb.entity.Course;
 import guillaume.spyWeb.entity.User;
 import guillaume.spyWeb.exception.NotFoundException;
 import guillaume.spyWeb.repository.CourseRepository;
 import guillaume.spyWeb.tools.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,12 +22,18 @@ public class CourseService {
         this.courseRepository = courseRepository;
     }
 
-    public CourseDto create(Course course) {
+    public CourseDto create(CourseDto courseDto, User user) {
+        var course = Converter.map(courseDto, Course.class);
+        course.setUser(user);
+        return Converter.map(courseRepository.save(course), CourseDto.class);
+    }
+    public CourseDto update(CourseDto courseDto) {
+        var course = Converter.map(courseDto, Course.class);
         return Converter.map(courseRepository.save(course), CourseDto.class);
     }
 
-    public List<CourseDto> getCoursesByUser(User userSession) {
-        var course = courseRepository.getByUser(userSession);
+    public Page<CourseDto> getCoursesByUser(User userSession, Pageable pageable) {
+        var course = courseRepository.getByUser(userSession, pageable);
         return Converter.map(course, CourseDto.class);
     }
 

@@ -3,6 +3,7 @@ package guillaume.spyWeb.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import guillaume.spyWeb.security.RoleName;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -180,5 +181,15 @@ public class User extends AuditModel implements UserDetails {
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
+    }
+
+    public boolean hasRole(RoleName roleName) {
+        return roles.stream().anyMatch(role -> role.getLabel().equals(roleName.getName()));
+    }
+    public boolean isAdmin() {
+        return hasRole(RoleName.ADMIN);
+    }
+    public boolean isTeacher() {
+        return hasRole(RoleName.TEACHER);
     }
 }
