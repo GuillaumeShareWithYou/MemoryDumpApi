@@ -20,7 +20,7 @@ import static guillaume.spyWeb.security.SecurityConstants.COOKIE_TOKEN_PATH;
 
 @RestController
 @RequestMapping("/session")
-public class SessionController extends AbstractController{
+public class SessionController extends AbstractController {
 
 
     private final UserService userService;
@@ -31,22 +31,14 @@ public class SessionController extends AbstractController{
     }
 
     @PostMapping("/register")
-    public UserSessionDto register(CredentialsDto credentials, HttpServletResponse response) throws IOException {
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserSessionDto register(CredentialsDto credentials, HttpServletResponse response)  {
 
         System.out.println(String.format("register with username : %s and password : %s and email %s",
                 credentials.getUserName(),
                 credentials.getPassword(),
                 credentials.getEmail()));
-        UserSessionDto userDto;
-        try {
-            userDto = userService.create(credentials);
-            response.setStatus(201);
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.sendError(400, "Email or login already used.");
-            return null;
-        }
-
+        UserSessionDto userDto = userService.create(credentials);
         var cookie = TokenService.generateCookieWithToken(userDto.getUserName());
         cookie.setPath(COOKIE_TOKEN_PATH);
         response.addCookie(cookie);
